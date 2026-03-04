@@ -1,18 +1,58 @@
 {
-  "family": "",
-  "taskRoleArn": "",
-  "executionRoleArn": "",
-  "networkMode": "",
-  "requiresCompatibilities": ???,
-  "cpu": "",
-  "memory": "",
-  "volumes": [],
-  
+  "family": "lks-leantime-app",
+  "taskRoleArn": "arn:aws:iam::105778548542:role/LabRole",
+  "executionRoleArn": "arn:aws:iam::105778548542:role/LabRole",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+
+  "volumes": [
+    {
+      "name": "public_userfiles",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "fs-XXXX",
+        "rootDirectory": "/",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "fsap-XXXX",
+          "iam": "DISABLED"
+        }
+      }
+    },
+    {
+      "name": "userfiles",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "fs-XXXX",
+        "rootDirectory": "/",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "fsap-XXXX",
+          "iam": "DISABLED"
+        }
+      }
+    },
+    {
+      "name": "plugins",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "fs-XXXX",
+        "rootDirectory": "/",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "fsap-XXXX",
+          "iam": "DISABLED"
+        }
+      }
+    }
+  ],
+
   "placementConstraints": [],
+
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
+
   "enableFaultInjection": false,
 
   "containerDefinitions": [
@@ -21,18 +61,84 @@
       "image": "leantime/leantime:latest",
       "cpu": 0,
       "essential": true,
-      "volumesFrom": [],
-      "systemControls": [],
 
-      "portMappings": [],
-      "secrets": [],
-      "environment": [],
-      "mountPoints": [],
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+
+      "environment": [
+        {
+          "name": "APP_URL",
+          "value": "http://ALB_DNS_NAME"
+        },
+        {
+          "name": "APP_PORT",
+          "value": "8080"
+        },
+        {
+          "name": "APP_NAME",
+          "value": "LKS Leantime"
+        },
+        {
+          "name": "APP_TIMEZONE",
+          "value": "Asia/Jakarta"
+        },
+        {
+          "name": "APP_DEBUG",
+          "value": "false"
+        }
+      ],
+
+      "secrets": [
+        {
+          "name": "DB_HOST",
+          "valueFrom": "arn:aws:ssm:us-east-1:105778548542:parameter/lks/db/host"
+        },
+        {
+          "name": "DB_PORT",
+          "valueFrom": "arn:aws:ssm:us-east-1:105778548542:parameter/lks/db/port"
+        },
+        {
+          "name": "DB_DATABASE",
+          "valueFrom": "arn:aws:ssm:us-east-1:105778548542:parameter/lks/db/name"
+        },
+        {
+          "name": "DB_USERNAME",
+          "valueFrom": "arn:aws:ssm:us-east-1:105778548542:parameter/lks/db/username"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:ssm:us-east-1:105778548542:parameter/lks/db/password"
+        }
+      ],
+
+      "mountPoints": [
+        {
+          "sourceVolume": "public_userfiles",
+          "containerPath": "/var/www/html/public/userfiles",
+          "readOnly": false
+        },
+        {
+          "sourceVolume": "userfiles",
+          "containerPath": "/var/www/html/userfiles",
+          "readOnly": false
+        },
+        {
+          "sourceVolume": "plugins",
+          "containerPath": "/var/www/html/app/Plugins",
+          "readOnly": false
+        }
+      ],
+
       "logConfiguration": {
-        "logDriver": "???",
+        "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "???",
-          "awslogs-region": "???",
+          "awslogs-group": "/ecs/lks/leantime-app",
+          "awslogs-region": "us-east-1",
           "mode": "non-blocking",
           "awslogs-create-group": "true",
           "max-buffer-size": "25m",
