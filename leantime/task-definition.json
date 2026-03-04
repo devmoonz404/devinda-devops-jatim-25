@@ -11,11 +11,11 @@
     {
       "name": "public_userfiles",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-XXXX",
+        "fileSystemId": "fs-0e80cb97614677c68",
         "rootDirectory": "/",
         "transitEncryption": "ENABLED",
         "authorizationConfig": {
-          "accessPointId": "fsap-XXXX",
+          "accessPointId": "fsap-02238570e58cbd00a",
           "iam": "DISABLED"
         }
       }
@@ -23,11 +23,11 @@
     {
       "name": "userfiles",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-XXXX",
+        "fileSystemId": "fs-0e80cb97614677c68",
         "rootDirectory": "/",
         "transitEncryption": "ENABLED",
         "authorizationConfig": {
-          "accessPointId": "fsap-XXXX",
+          "accessPointId": "fsap-0881b51a06bc5e52e",
           "iam": "DISABLED"
         }
       }
@@ -35,11 +35,11 @@
     {
       "name": "plugins",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-XXXX",
+        "fileSystemId": "fs-0e80cb97614677c68",
         "rootDirectory": "/",
         "transitEncryption": "ENABLED",
         "authorizationConfig": {
-          "accessPointId": "fsap-XXXX",
+          "accessPointId": "fsap-0ac7a94f21c6b24c5",
           "iam": "DISABLED"
         }
       }
@@ -58,7 +58,7 @@
   "containerDefinitions": [
     {
       "name": "leantime",
-      "image": "leantime/leantime:latest",
+      "image": "<task-def-image>",
       "cpu": 0,
       "essential": true,
 
@@ -73,7 +73,7 @@
       "environment": [
         {
           "name": "APP_URL",
-          "value": "http://ALB_DNS_NAME"
+          "value": "lks-oss-lb-1142196583.us-east-1.elb.amazonaws.com"
         },
         {
           "name": "APP_PORT",
@@ -81,7 +81,7 @@
         },
         {
           "name": "APP_NAME",
-          "value": "LKS Leantime"
+          "value": "lks-leantime-app"
         },
         {
           "name": "APP_TIMEZONE",
