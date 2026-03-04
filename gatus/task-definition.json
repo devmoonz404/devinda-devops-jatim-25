@@ -1,5 +1,4 @@
 {
-  // FILL IN THE MISSING VALUES BELOW
   "family": "",
   "taskRoleArn": "",
   "executionRoleArn": "",
@@ -9,7 +8,6 @@
   "requiresCompatibilities": ???,
   "cpu": "",
   "memory": "",
-  // FILL IN THE MISSING VALUES ABOVE
 
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
@@ -24,8 +22,7 @@
       "essential": true,
       "volumesFrom": [],
       "systemControls": [],
-
-      // FILL IN THE MISSING VALUES BELOW
+      
       "portMappings": [],
       "logConfiguration": {
         "logDriver": "???",
@@ -38,7 +35,6 @@
           "awslogs-stream-prefix": "ecs"
         }
       }
-      // FILL IN THE MISSING VALUES ABOVE
     }
   ]
 }
