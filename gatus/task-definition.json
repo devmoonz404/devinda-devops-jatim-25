@@ -19,7 +19,7 @@
   "containerDefinitions": [
     {
       "name": "gatus",
-      "image": "<task-def-image>", // WARN: REMOVE THIS COMMENT AND DO NOT CHANGE THIS LINE
+      "image": "<task-def-image>", 
       "cpu": 0,
       "essential": true,
       "volumesFrom": [],
